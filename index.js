@@ -1,6 +1,6 @@
 
 const { Client, Events, GatewayIntentBits } = require('discord.js');
-const lib = require("./helper.js")
+const lib = require("./src/helper.js")
 const token = process.env["TOKEN"]
 const client = new Client({
   intents: [
