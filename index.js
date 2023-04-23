@@ -1,7 +1,7 @@
-
 const { Client, Events, GatewayIntentBits } = require('discord.js');
-const lib = require("./src/helper.js")
 const token = process.env["TOKEN"]
+var myExports = require('./src/helper.js');
+const functionNames = Object.keys(myExports)
 const client = new Client({
   intents: [
     GatewayIntentBits.Guilds,
@@ -16,7 +16,7 @@ client.once(Events.ClientReady, c => {
 });
 
 client.on("messageCreate", (message) => {
-  lib.attack_brown(message);
+  myExports.runCompletion(message)
 });
 
 // Log in to Discord with your client's token
