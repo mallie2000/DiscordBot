@@ -1,7 +1,6 @@
 const { Client, Events, GatewayIntentBits } = require('discord.js');
 const token = process.env["TOKEN"]
-var myExports = require('./src/helper.js');
-const functionNames = Object.keys(myExports)
+const myExports = require('./src/helper.js');
 const client = new Client({
   intents: [
     GatewayIntentBits.Guilds,
@@ -16,13 +15,15 @@ client.once(Events.ClientReady, c => {
 });
 
 client.on("messageCreate", (message) => {
-  myExports.runCompletion(message)
+  myExports.attack_brown(message)
+  myExports.pray(message)
+  myExports.runCompletion(message,message.content.toUpperCase())
 });
 
-// Log in to Discord with your client's token
+
 client.login(token)
 
-
+//Used to keep the program "alive"
 const express = require('express')
 const app = express();
 const port = 3000;

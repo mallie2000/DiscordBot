@@ -4,22 +4,22 @@ const configuration = new Configuration({
 });
 const openai = new OpenAIApi(configuration);
 
-async function runCompletion(message) {
-  var substring = message.content.toUpperCase()
-  var command = substring.replace("OSBERT", "")
-  var command = command + "{}"
-  if (substring.includes("OSBERT:")) {
+function returnRules(command){
+    command = command.replace("OSBERT:","")
+    return [{ "role": "user", "content": command }]
+  }
+async function runCompletion(ctx,message) {
+  if(message.includes("OSBERT")){
+    var rules = returnRules(message)
     const completion = await openai.createChatCompletion({
       model: "gpt-3.5-turbo",
-      messages: [{"role": "system", "content": process.env.JAILBREAK},
-                 { "role": "user", "content": command }],
+      messages: rules,
       temperature: .7,
       max_tokens: 1000,
       frequency_penalty: 0,
-      stop: ["{}"],
     });
     const result = completion.data.choices[0].message["content"]
-    message.channel.send(result)
+    ctx.channel.send(result)
   }
 }
 
